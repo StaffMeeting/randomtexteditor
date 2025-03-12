@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
 		case KEY_RESIZE: {
 			break;
 		}
-		case '/':
 		case KEY_F(6): {
 			cmdmode();
 			break;
