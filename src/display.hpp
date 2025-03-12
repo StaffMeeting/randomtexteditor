@@ -16,7 +16,6 @@ std::string get_filename() {
     curs_set(0);
 
     if (result == ERR) {
-        // Handle error
         return "";
     }
 
