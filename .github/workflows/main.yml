@@ -4,5 +4,5 @@
   uses: fing9/42Cursus-Makefile-Test@v3.0.2
   with:
     # The directory to search for Makefiles
-    dir: # optional, default is .
+    dir: texteditor
           
