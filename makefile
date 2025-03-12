@@ -3,7 +3,7 @@ SOURCE	= main.cpp global.cpp
 HEADER	= display.hpp global.h
 OUT	= editfile
 FLAGS	= -g -c -Wall
-LFLAGS	= 
+LDLIBS	= -lncurses
 CC	= g++
 
 all:	editfile
