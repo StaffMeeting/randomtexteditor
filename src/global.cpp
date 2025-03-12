@@ -3,7 +3,7 @@
 #include "global.h"
 
 int cursor_row = 0;
-int cursor_col = 1;
+int cursor_col = 0;
 std::string filename;
 std::vector<std::string> content;
 std::string cmdlist;
