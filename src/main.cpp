@@ -6,7 +6,6 @@
 #include <regex>
 #include "display.hpp"
 #include "global.h"
-using namespace std;
 
 bool is_valid_filename(const std::string& filename) {
     // Allow only alphanumeric characters, underscores, hyphens, and dots

@@ -10,10 +10,15 @@ std::string get_filename() {
     curs_set(1);
 
     char input[69];
-    getstr(input);
+    int result = getstr(input);
 
     noecho();
     curs_set(0);
+
+    if (result == ERR) {
+        // Handle error
+        return "";
+    }
 
     return std::string(input);
 }
