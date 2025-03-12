@@ -40,7 +40,7 @@ void display() {
 	refresh();
 }
 void cmdmode() {
-	while ((ch = getch()) != '/'/*KEY_F(6)*/) {
+	while ((ch = getch()) != KEY_F(6)) {
 		switch(tolower(ch)) {
 		case KEY_UP:
 		case 'w': {
