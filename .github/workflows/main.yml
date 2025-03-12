@@ -1,0 +1,8 @@
+            - name: 42Cursus C/CPP Makefile Test
+  # You may pin to the exact commit or the version.
+  # uses: fing9/42Cursus-Makefile-Test@f3f147dc6840a48b49d78277f196e43984f40d96
+  uses: fing9/42Cursus-Makefile-Test@v3.0.2
+  with:
+    # The directory to search for Makefiles
+    dir: # optional, default is .
+          
