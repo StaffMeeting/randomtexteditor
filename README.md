@@ -8,9 +8,9 @@ install tutorial:
 
 3.open terminal at where the file is
 
-4.send make to terminal
+4.type make
 
-5.send ./editit to start using it
+5.type ./editit to start using it
 
 
 tutorial:
