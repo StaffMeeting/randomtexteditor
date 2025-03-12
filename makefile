@@ -1,33 +1,38 @@
 # Compiler and flags
 CXX := g++
-CXXFLAGS := -Wall -Wextra -std=c++20 -O2
+CXXFLAGS := -Wall -Wextra -std=c++20 -O2 -I./src
 LDFLAGS := 
-LDLIBS := -lncursesw
+LDLIBS := -lncurses
 
 # Project structure
-TARGET := editit
-SRC := main.cpp global.cpp
-OBJ := $(SRC:.cpp=.o)
-HEADERS := display.hpp global.h
+SRC_DIR := src
+BUILD_DIR := build
+TARGET := program
+
+# File lists
+SRC := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC))
+HEADERS := $(wildcard $(SRC_DIR)/*.h $(SRC_DIR)/*.hpp)
 
 # Default target
-all: $(TARGET)
+all: $(BUILD_DIR) $(TARGET)
+
+# Create build directory
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
 # Link object files to create executable
 $(TARGET): $(OBJ)
 	$(CXX) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
-# Compile main.cpp with dependencies
-main.o: main.cpp display.hpp global.h
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Compile global.cpp with dependencies
-global.o: global.cpp global.h
+# Compile cpp files to object files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean build artifacts
 clean:
-	rm -f $(TARGET) $(OBJ)
+	rm -f $(TARGET)
+	rm -rf $(BUILD_DIR)
 
-# Phony targets (not actual files)
+# Phony targets
 .PHONY: all clean
