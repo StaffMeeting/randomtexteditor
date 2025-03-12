@@ -8,7 +8,6 @@
 #include "global.h"
 
 bool is_valid_filename(const std::string& filename) {
-    // Allow only alphanumeric characters, underscores, hyphens, and dots
     std::regex valid_filename_regex("^[a-zA-Z0-9._-]+$");
     return std::regex_match(filename, valid_filename_regex);
 }
@@ -117,5 +116,5 @@ int main(int argc, char* argv[]) {
         }
     }
     endwin();
-    return EXIT_SUCCESS;
+    return 0;
 }
