@@ -10,7 +10,7 @@ DEPFLAGS = -MMD -MP
 # Project structure
 SRC_DIR := src
 BUILD_DIR := build
-TARGET := program
+TARGET := editit
 
 # File lists
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
