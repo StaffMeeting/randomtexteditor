@@ -1,22 +1,33 @@
-OBJS	= main.o global.o
-SOURCE	= main.cpp global.cpp
-HEADER	= display.hpp global.h
-OUT	= editfile
-FLAGS	= -g -c -Wall
-LDLIBS	= -lncurses
-CC	= g++
+# Compiler and flags
+CXX := g++
+CXXFLAGS := -Wall -Wextra -std=c++20 -O2
+LDFLAGS := 
+LDLIBS := -lncursesw
 
-all:	editfile
+# Project structure
+TARGET := editit
+SRC := main.cpp global.cpp
+OBJ := $(SRC:.cpp=.o)
+HEADERS := display.hpp global.h
 
-editfile: $(OBJS)
-	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
+# Default target
+all: $(TARGET)
 
-main.o: main.cpp
-	$(CC) $(FLAGS) main.cpp 
+# Link object files to create executable
+$(TARGET): $(OBJ)
+	$(CXX) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
-global.o: global.cpp
-	$(CC) $(FLAGS) global.cpp 
+# Compile main.cpp with dependencies
+main.o: main.cpp display.hpp global.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Compile global.cpp with dependencies
+global.o: global.cpp global.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Clean build artifacts
 clean:
-	rm -f $(OBJS) $(OUT)
+	rm -f $(TARGET) $(OBJ)
 
+# Phony targets (not actual files)
+.PHONY: all clean
