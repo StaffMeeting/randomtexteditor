@@ -2,7 +2,7 @@ install tutorial:
 
 0.install ncurses library
 
-1.download the zip file
+1.download the zip file here
 
 2.unzip it
 
