@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
         refresh();
         getch();
         endwin();
-        return EXIT_FAILURE;
+        return 1;
     }
 
     std::fstream file(filename);
