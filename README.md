@@ -1,5 +1,7 @@
 if you see this from git i guess u cloned the wrong thing, delete it
 
+note: only avaliable on linux
+
 install tutorial:
 
 0.install ncurses library
