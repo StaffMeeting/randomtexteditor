@@ -32,7 +32,7 @@ std::string choosefile(const std::string& start_path) {
     getmaxyx(stdscr, row, col);
 
     std::string current_path = start_path;
-    std::vector<std::string> files = list_files(current_path);
+    std::vector<std::string> files = listfile(current_path);
     int highlight = 0;
 
     while (true) {
@@ -66,8 +66,8 @@ std::string choosefile(const std::string& start_path) {
                 } else {
                     current_path += files[highlight];
                 }
-                if (list_files(current_path).size() > 0) {
-                    files = list_files(current_path);
+                if (listfile(current_path).size() > 0) {
+                    files = listfile(current_path);
                     highlight = 0;
                 } else {
                     endwin();
