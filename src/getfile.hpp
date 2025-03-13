@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include "global.h"
 
 std::vector<std::string> listfile(const std::string& path) {
     std::vector<std::string> files;
