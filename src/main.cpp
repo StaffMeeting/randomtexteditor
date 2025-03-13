@@ -3,34 +3,18 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
-#include <regex>
 #include "display.hpp"
 #include "global.h"
+#include "getfile.hpp"
 
-bool is_valid_filename(const std::string& filename) {
-    std::regex valid_filename_regex("^[a-zA-Z0-9._-]+$");
-    return std::regex_match(filename, valid_filename_regex);
-}
-
-int main(int argc, char* argv[]) {
+int main() {
     initscr();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
     curs_set(0);
-
-    mvprintw(0, 0, "Enter filename:");
-    filename = get_filename();
+    filename = choosefile("/");;
     clear();
-
-    if (!is_valid_filename(filename)) {
-        mvprintw(0, 0, "Invalid filename. Only alphanumeric characters, underscores, hyphens, and dots are allowed.");
-        refresh();
-        getch();
-        endwin();
-        return 1;
-    }
-
     std::fstream file(filename);
     if (file.good()) {
         std::string line;
