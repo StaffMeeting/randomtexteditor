@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         }
     }
     if (content.empty()) {
-        content.push_back("created new file.");
+        content.push_back(" ");
     }
     display();
     int ch;
