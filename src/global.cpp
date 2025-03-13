@@ -11,3 +11,4 @@ int ch;
 int max_y;
 int max_x;
 std::string strg;
+int scroll_offset = 0;

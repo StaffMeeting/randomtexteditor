@@ -8,3 +8,4 @@ extern int ch;
 extern int max_y;
 extern int max_x;
 extern std::string strg;
+extern int scroll_offset;

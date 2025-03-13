@@ -25,13 +25,19 @@ std::string get_filename() {
 void display() {
     clear();
     getmaxyx(stdscr, max_y, max_x);
-    for (int i = 0; i < max_y - 1 && i < content.size(); ++i) {
-        mvprintw(i, 0, "%i", i + 1);
-        mvprintw(i, content.size() / 10, "|%s", content[i].c_str());
-        if (i == cursor_row) {
-            int draw_col = std::min(cursor_col, (int)content[i].length()) + content.size() / 10;
+    if (cursor_row < scroll_offset) {
+        scroll_offset = cursor_row;
+    } else if (cursor_row >= scroll_offset + max_y - 1) {
+        scroll_offset = cursor_row - max_y + 2;
+    }
+
+    for (int i = 0; i < max_y - 1 && i + scroll_offset < content.size(); ++i) {
+        mvprintw(i, 0, "%i", i + 1 + scroll_offset);
+        mvprintw(i, content.size() / 10, "|%s", content[i + scroll_offset].c_str());
+        if (i + scroll_offset == cursor_row) {
+            int draw_col = std::min(cursor_col, (int)content[i + scroll_offset].length()) + content.size() / 10;
             move(i, draw_col);
-            addch(content[i][cursor_col - 1] | A_REVERSE);
+            addch(content[i + scroll_offset][cursor_col - 1] | A_REVERSE);
         }
     }
     refresh();
