@@ -5,23 +5,6 @@
 #include "global.h"
 #include <iostream>
 
-std::string get_filename() {
-    echo();
-    curs_set(1);
-
-    char input[69];
-    int result = getstr(input);
-
-    noecho();
-    curs_set(0);
-
-    if (result == ERR) {
-        return "";
-    }
-
-    return std::string(input);
-}
-
 void display() {
     clear();
     getmaxyx(stdscr, max_y, max_x);
@@ -83,7 +66,14 @@ void cmdmode() {
                 break;
             }
             case 'c': {
-                std::string cmdlist = get_filename();
+                echo();
+                curs_set(1);
+                char input[69];  
+                getstr(input);
+                noecho();
+                curs_set(0);
+                std::string cmdlist = input;
+                
                 if (cmdlist == "col") {
                     strg = content[cursor_row];
                     display();
