@@ -74,23 +74,25 @@ void cmdmode() {
                 curs_set(0);
                 std::string cmdlist = input;
                 
-                if (cmdlist == "col") {
+                if (cmdlist == "copyl") {
                     strg = content[cursor_row];
                     display();
-                } else if (cmdlist == "coc") {
-                    strg = content[cursor_row][cursor_col - 1];
+                } else if (cmdlist == "copyc") {
+                    strg = content[cursor_row][cursor_col-1];
                     display();
-                } else if (cmdlist == "ps") {
+                } else if (cmdlist == "p") {
                     for (char c : strg) {
                         content[cursor_row].insert(cursor_col, 1, c);
                         cursor_col++;
                         display();
                     }
-                } else if (cmdlist == "cul") {
+                } else if (cmdlist == "cutl") {
                     strg = content[cursor_row];
                     content[cursor_row].clear();
                     cursor_row++;
-                }
+                } else if (cmdlist == "cutc") {
+                    strg = content[cursor_row][cursor_col-1];
+                    content[cursor_row][cursor_col-1].erase();
                 break;
             }
         }
