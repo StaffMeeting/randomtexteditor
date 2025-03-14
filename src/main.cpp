@@ -13,7 +13,23 @@ int main() {
     noecho();
     keypad(stdscr, TRUE);
     curs_set(0);
-    filename = choosefile("/");;
+
+    filename = choosefile("/");
+    if (filename.empty()) { // Handle case where no file is selected
+        endwin();
+        std::cerr << "No file selected. Exiting program." << std::endl;
+        return 1;
+    }
+
+    // Check if the file exists
+    std::ifstream file_check(filename);
+    if (!file_check.good()) {
+        endwin();
+        std::cerr << "Error: File does not exist or cannot be opened. Exiting program." << std::endl;
+        return 1;
+    }
+    file_check.close();
+
     clear();
     std::fstream file(filename);
     if (file.good()) {
@@ -25,71 +41,72 @@ int main() {
     if (content.empty()) {
         content.push_back(" ");
     }
+
     display();
     int ch;
     while ((ch = getch()) != KEY_F(12)) {
-        switch(ch) {
-        case KEY_UP: {
-            if (cursor_row > 0) {
-                cursor_row--;
+        switch (ch) {
+            case KEY_UP: {
+                if (cursor_row > 0) {
+                    cursor_row--;
+                }
+                break;
             }
-            break;
-        }
-        case KEY_DOWN: {
-            if (cursor_row < content.size() - 1) {
+            case KEY_DOWN: {
+                if (cursor_row < content.size() - 1) {
+                    cursor_row++;
+                }
+                break;
+            }
+            case KEY_LEFT: {
+                if (cursor_col > 0) {
+                    cursor_col--;
+                }
+                break;
+            }
+            case KEY_RIGHT: {
+                if (cursor_col < content[cursor_row].length()) {
+                    cursor_col++;
+                }
+                break;
+            }
+            case KEY_ENTER:
+            case '\n':
+            case '\r': {
+                std::string currline = content[cursor_row];
+                std::string newline = currline.substr(cursor_col);
+                content[cursor_row] = currline.substr(0, cursor_col);
+                content.insert(content.begin() + cursor_row + 1, newline);
                 cursor_row++;
+                cursor_col = 0;
+                break;
             }
-            break;
-        }
-        case KEY_LEFT: {
-            if (cursor_col > 0) {
-                cursor_col--;
+            case KEY_BACKSPACE:
+            case 127: {
+                if (cursor_col > 0) {
+                    content[cursor_row].erase(cursor_col-1, 1);
+                    cursor_col--;
+                } else if (cursor_row > 0) {
+                    cursor_col = content[cursor_row - 1].length();
+                    content[cursor_row - 1] += content[cursor_row];
+                    content.erase(content.begin() + cursor_row);
+                    cursor_row--;
+                }
+                break;
             }
-            break;
-        }
-        case KEY_RIGHT: {
-            if (cursor_col < content[cursor_row].length()) {
-                cursor_col++;
+            case KEY_RESIZE: {
+                break;
             }
-            break;
-        }
-        case KEY_ENTER:
-        case '\n':
-        case '\r': {
-            std::string currline = content[cursor_row];
-            std::string newline = currline.substr(cursor_col);
-            content[cursor_row] = currline.substr(0, cursor_col);
-            content.insert(content.begin() + cursor_row + 1, newline);
-            cursor_row++;
-            cursor_col = 0;
-            break;
-        }
-        case KEY_BACKSPACE:
-        case 127: {
-            if (cursor_col > 0) {
-                content[cursor_row].erase(cursor_col-1, 1);
-                cursor_col--;
-            } else if (cursor_row > 0) {
-                cursor_col = content[cursor_row - 1].length();
-                content[cursor_row - 1] += content[cursor_row];
-                content.erase(content.begin() + cursor_row);
-                cursor_row--;
+            case KEY_F(6): {
+                cmdmode();
+                break;
             }
-            break;
-        }
-        case KEY_RESIZE: {
-            break;
-        }
-        case KEY_F(6): {
-            cmdmode();
-            break;
-        }
-        default:
-            if (isprint(ch)) {
-                content[cursor_row].insert(cursor_col, 1, ch);
-                cursor_col++;
-            }
-            break;
+            default:
+                if (isprint(ch)) {
+                    content[cursor_row].insert(cursor_col, 1, ch);
+                    cursor_col++;
+                }
+                break;
         }
         cursor_row = std::max(0, std::min(cursor_row, (int)content.size() - 1));
         cursor_col = std::max(0, std::min(cursor_col, (int)content[cursor_row].length()));

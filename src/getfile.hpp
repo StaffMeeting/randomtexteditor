@@ -4,6 +4,8 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
+#include <unistd.h>
 #include "global.h"
 
 std::vector<std::string> listfile(const std::string& path) {
@@ -13,9 +15,25 @@ std::vector<std::string> listfile(const std::string& path) {
 
     if ((dir = opendir(path.c_str())) != NULL) {
         while ((ent = readdir(dir)) != NULL) {
-            files.push_back(ent->d_name);
+            std::string name = ent->d_name;
+
+            // Skip hidden files and special entries
+            if (name == "." || name == ".." || name.empty()) {
+                continue;
+            }
+
+            // Construct full path to check if it's valid
+            std::string full_path = path + "/" + name;
+
+            // Check if the entry is accessible
+            if (access(full_path.c_str(), F_OK) == 0) {
+                files.push_back(name);
+            }
         }
         closedir(dir);
+
+        // Sort the files alphabetically for better navigation
+        std::sort(files.begin(), files.end());
     } else {
         perror("opendir");
     }
@@ -40,12 +58,18 @@ std::string choosefile(const std::string& start_path) {
         clear();
         mvprintw(0, 0, "Select a file (Use arrow keys and Enter):");
 
+        // Display files
         for (int i = 0; i < files.size(); ++i) {
             if (i == highlight) {
                 attron(A_REVERSE);
             }
             mvprintw(i + 1, 0, files[i].c_str());
             attroff(A_REVERSE);
+        }
+
+        // Handle empty directories
+        if (files.empty()) {
+            mvprintw(1, 0, "Directory is empty. Press ESC to exit.");
         }
 
         int choice = getch();
@@ -56,26 +80,37 @@ std::string choosefile(const std::string& start_path) {
             case KEY_DOWN:
                 highlight = (highlight == files.size() - 1) ? 0 : highlight + 1;
                 break;
-            case KEY_BACKSPACE:
+            case 10: // Enter key
+                if (files.empty()) {
+                    break; // Prevent crashes on empty directories
+                }
                 if (files[highlight] == "..") {
                     size_t pos = current_path.find_last_of('/');
-                    current_path = current_path.substr(0, pos);
-                } else if (files[highlight] == ".") {
-                    continue;
-                } else if (current_path != "/") {
-                    current_path += "/" + files[highlight];
-                } else {
-                    current_path += files[highlight];
+                    if (pos != std::string::npos) {
+                        current_path = current_path.substr(0, pos);
+                    } else {
+                        current_path = "/";
+                    }
+                } else if (files[highlight] != ".") {
+                    std::string selected_path = current_path + "/" + files[highlight];
+                    std::vector<std::string> sub_files = listfile(selected_path);
+                    if (!sub_files.empty()) {
+                        current_path = selected_path;
+                        files = sub_files;
+                        highlight = 0;
+                        continue;
+                    } else if (std::ifstream(selected_path)) {
+                        endwin();
+                        return selected_path; // Return file path if it's a valid file
+                    } else {
+                        mvprintw(row - 1, 0, "Invalid selection. Press any key to continue.");
+                        getch();
+                    }
                 }
-                if (listfile(current_path).size() > 0) {
-                    files = listfile(current_path);
-                    highlight = 0;
-                } else {
-                    endwin();
-                    return current_path;
-                }
+                files = listfile(current_path);
+                highlight = 0;
                 break;
-            case 27:
+            case 27: // Escape key
                 endwin();
                 return "";
         }

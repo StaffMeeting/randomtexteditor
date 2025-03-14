@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX := g++
-CXXFLAGS := -Wall -Wextra -std=c++20 -O2 -I./src
+CXXFLAGS := -Wall -Wextra -std=c++20 -O2 -I./src -I/usr/include
 LDFLAGS := 
 LDLIBS := -lncurses
 
