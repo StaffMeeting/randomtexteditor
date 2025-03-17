@@ -35,7 +35,7 @@ type anything to add it
 
 press F6 to enter/exit commend mode
 
-press c to type thing to cmd
+press c to type thing to cmd (if in command mode)
 
 copyl for copying line ur at
 
