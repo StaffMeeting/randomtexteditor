@@ -99,6 +99,6 @@ void cmdmode() {
         cursor_row = std::max(0, std::min(cursor_row, (int)content.size() - 1));
         cursor_col = std::max(0, std::min(cursor_col, (int)content[cursor_row].length()));
         display();
+        }
     }
 }
-
