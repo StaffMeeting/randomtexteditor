@@ -42,3 +42,7 @@ copyl for copying line ur at
 cutl for cuting line
 
 p for paste
+
+what to do?
+
+edit any type of file
