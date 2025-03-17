@@ -8,7 +8,7 @@
 #include "global.h"
 #include "getfile.hpp"
 
-int main() {
+int main(int argc, char *argv[]) {
     initscr();
     cbreak();
     noecho();
