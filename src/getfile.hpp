@@ -12,13 +12,10 @@ std::vector<std::string> listfile(const std::string& path) {
     std::vector<std::string> files;
     DIR* dir;
     struct dirent* ent;
-
     if ((dir = opendir(path.c_str())) != NULL) {
         while ((ent = readdir(dir)) != NULL) {
             std::string name = ent->d_name;
-
             std::string full_path = path + "/" + name;
-
             if (access(full_path.c_str(), F_OK) == 0) {
                 files.push_back(name);
             }
@@ -49,7 +46,6 @@ std::string choosefile(const std::string& start_path) {
     while (true) {
         clear();
         mvprintw(0, 0, "Select a file (Use arrow keys and Enter):");
-
         for (int i = 0; i < files.size(); ++i) {
             if (i == highlight) {
                 attron(A_REVERSE);
@@ -57,13 +53,12 @@ std::string choosefile(const std::string& start_path) {
             mvprintw(i + 1, 0, files[i].c_str());
             attroff(A_REVERSE);
         }
-
         if (files.empty()) {
             mvprintw(1, 0, "Directory is empty. Press ESC to exit.");
         }
 
-        int choice = getch();
-        switch (choice) {
+        int ch = getch();
+        switch (ch) {
             case KEY_UP:
                 highlight = (highlight == 0) ? files.size() - 1 : highlight - 1;
                 break;
