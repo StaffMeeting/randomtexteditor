@@ -57,7 +57,7 @@ std::string choosefile(const std::string& start_path) {
             mvprintw(1, 0, "Directory is empty. Press ESC to exit.");
         }
 
-        int ch = getch();
+        ch = getch();
         switch (ch) {
             case KEY_UP:
                 highlight = (highlight == 0) ? files.size() - 1 : highlight - 1;
