@@ -17,22 +17,14 @@ std::vector<std::string> listfile(const std::string& path) {
         while ((ent = readdir(dir)) != NULL) {
             std::string name = ent->d_name;
 
-            // Skip hidden files and special entries
-            if (name == "." || name == ".." || name.empty()) {
-                continue;
-            }
-
-            // Construct full path to check if it's valid
             std::string full_path = path + "/" + name;
 
-            // Check if the entry is accessible
             if (access(full_path.c_str(), F_OK) == 0) {
                 files.push_back(name);
             }
         }
         closedir(dir);
 
-        // Sort the files alphabetically for better navigation
         std::sort(files.begin(), files.end());
     } else {
         perror("opendir");
@@ -58,7 +50,6 @@ std::string choosefile(const std::string& start_path) {
         clear();
         mvprintw(0, 0, "Select a file (Use arrow keys and Enter):");
 
-        // Display files
         for (int i = 0; i < files.size(); ++i) {
             if (i == highlight) {
                 attron(A_REVERSE);
@@ -67,7 +58,6 @@ std::string choosefile(const std::string& start_path) {
             attroff(A_REVERSE);
         }
 
-        // Handle empty directories
         if (files.empty()) {
             mvprintw(1, 0, "Directory is empty. Press ESC to exit.");
         }
@@ -80,9 +70,9 @@ std::string choosefile(const std::string& start_path) {
             case KEY_DOWN:
                 highlight = (highlight == files.size() - 1) ? 0 : highlight + 1;
                 break;
-            case 10: // Enter key
+            case 10: //enter
                 if (files.empty()) {
-                    break; // Prevent crashes on empty directories
+                    break;
                 }
                 if (files[highlight] == "..") {
                     size_t pos = current_path.find_last_of('/');
@@ -101,7 +91,7 @@ std::string choosefile(const std::string& start_path) {
                         continue;
                     } else if (std::ifstream(selected_path)) {
                         endwin();
-                        return selected_path; // Return file path if it's a valid file
+                        return selected_path;
                     } else {
                         mvprintw(row - 1, 0, "Invalid selection. Press any key to continue.");
                         getch();
@@ -110,7 +100,7 @@ std::string choosefile(const std::string& start_path) {
                 files = listfile(current_path);
                 highlight = 0;
                 break;
-            case 27: // Escape key
+            case 27: //esc
                 endwin();
                 return "";
         }
