@@ -19,4 +19,26 @@ install tutorial:
 
 tutorial:
 
-coming soon
+arrow key {
+
+↑ : move up
+
+← : move left
+
+↓ : move down
+
+→ : move right
+
+}
+
+type anything to add it
+
+press F6 to enter/exit commend mode
+
+press c to type thing to cmd
+
+copyl for copying line ur at
+
+cutl for cuting line
+
+p for paste
