@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -15,13 +16,12 @@ int main() {
     curs_set(0);
 
     filename = choosefile("/");
-    if (filename.empty()) { // Handle case where no file is selected
+    if (filename.empty()) {
         endwin();
         std::cerr << "No file selected. Exiting program." << std::endl;
         return 1;
     }
 
-    // Check if the file exists
     std::ifstream file_check(filename);
     if (!file_check.good()) {
         endwin();
@@ -113,7 +113,7 @@ int main() {
         display();
         std::ofstream out(filename);
         for (const auto& line : content) {
-            out << line << '\n';
+            out << line << "\n";
         }
     }
     endwin();
