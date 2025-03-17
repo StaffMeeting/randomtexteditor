@@ -68,7 +68,7 @@ void cmdmode() {
             case 'c': {
                 echo();
                 curs_set(1);
-                char input[69];  
+                char input[9];
                 getstr(input);
                 noecho();
                 curs_set(0);
