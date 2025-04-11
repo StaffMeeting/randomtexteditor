@@ -35,14 +35,4 @@ type anything to add it
 
 press F6 to enter/exit commend mode
 
-press c to type thing to cmd (if in command mode)
-
-copyl for copying line ur at
-
-cutl for cuting line
-
-p for paste
-
-what to do?
-
-edit any type of file
+press c to send thing to console (if in command modd)
