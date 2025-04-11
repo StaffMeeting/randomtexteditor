@@ -92,7 +92,8 @@ void cmdmode() {
                     cursor_row++;
                 } else if (cmdlist == "cutc") {
                     strg = content[cursor_row][cursor_col-1];
-                    content[cursor_row][cursor_col-1].erase();
+                    content[cursor_row].erase();
+                }
                 break;
             }
         }
