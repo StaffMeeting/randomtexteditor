@@ -26,7 +26,7 @@ void display() {
     refresh();
 
     attron(A_REVERSE);
-    mvprintw(max_y - 1, 0, " Editing: %s| Row: %d Col: %d | F12: Save/Exit\n", filename.c_str(), cursor_row + 1, cursor_col);
+    mvprintw(max_y - 1, 0, " file: %s| line:%d col:%d | F12:exit ", filename.c_str(), cursor_row, cursor_col);
 
     clrtoeol();
     attroff(A_REVERSE);
