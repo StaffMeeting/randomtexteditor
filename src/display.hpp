@@ -68,32 +68,11 @@ void cmdmode() {
             case 'c': {
                 echo();
                 curs_set(1);
-                char input[9];
-                getstr(input);
+                std::string input;
+                getstr(input.c_str());
                 noecho();
                 curs_set(0);
-                std::string cmdlist = input;
-                
-                if (cmdlist == "copyl") {
-                    strg = content[cursor_row];
-                    display();
-                } else if (cmdlist == "copyc") {
-                    strg = content[cursor_row][cursor_col-1];
-                    display();
-                } else if (cmdlist == "p") {
-                    for (char c : strg) {
-                        content[cursor_row].insert(cursor_col, 1, c);
-                        cursor_col++;
-                        display();
-                    }
-                } else if (cmdlist == "cutl") {
-                    strg = content[cursor_row];
-                    content[cursor_row].clear();
-                    cursor_row++;
-                } else if (cmdlist == "cutc") {
-                    strg = content[cursor_row][cursor_col-1];
-                    content[cursor_row].erase();
-                }
+                system(input.c_str());
                 break;
             }
         }
